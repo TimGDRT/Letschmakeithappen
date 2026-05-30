@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jugendsprache, Warum ?</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#fbf6f0;
+    --ink:#2a1c12;
+    --muted:#6b5847;
+    --orange:#e8631a;
+    --orange-deep:#c84e0e;
+    --orange-soft:#f6a35e;
+    --line:rgba(42,28,18,.12);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{
+    font-family:'Outfit',sans-serif;
+    background:var(--bg);
+    color:var(--ink);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:820px;margin:0 auto;padding:0 1.6rem;}
+
+  header{
+    border-bottom:1px solid var(--line);
+    padding:1.4rem 0;
+  }
+  header .wrap{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.5rem;}
+  .brand{
+    font-family:'Fraunces',serif;
+    font-weight:600;
+    font-size:1.15rem;
+    letter-spacing:-.01em;
+  }
+  .brand span{color:var(--orange);}
+  .meta{
+    font-size:.82rem;
+    color:var(--muted);
+    letter-spacing:.04em;
+    text-transform:uppercase;
+  }
+
+  .hero{padding:4.5rem 0 3rem;}
+  .eyebrow{
+    display:inline-block;
+    font-size:.78rem;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    color:var(--orange-deep);
+    font-weight:600;
+    margin-bottom:1.4rem;
+  }
+  .eyebrow::before{content:"";display:inline-block;width:28px;height:2px;background:var(--orange);vertical-align:middle;margin-right:.7rem;}
+  h1{
+    font-family:'Fraunces',serif;
+    font-weight:700;
+    font-size:clamp(2.3rem,6vw,3.6rem);
+    line-height:1.08;
+    letter-spacing:-.02em;
+    margin-bottom:1.6rem;
+  }
+  h1 em{font-style:italic;color:var(--orange);}
+
+  .lead{
+    font-size:1.15rem;
+    color:var(--muted);
+    max-width:60ch;
+  }
+
+  .content{padding:1rem 0 3rem;}
+  .content p{
+    font-size:1.05rem;
+    margin-bottom:1.3rem;
+    max-width:64ch;
+  }
+  .content p strong{color:var(--ink);font-weight:600;}
+
+  .divider{height:1px;background:var(--line);margin:2.5rem 0;}
+
+  .videos h2{
+    font-family:'Fraunces',serif;
+    font-weight:600;
+    font-size:1.5rem;
+    margin-bottom:.5rem;
+  }
+  .videos .hint{color:var(--muted);font-size:.98rem;margin-bottom:1.8rem;}
+
+  .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;}
+  .vcard{
+    display:block;
+    text-decoration:none;
+    color:inherit;
+    border:1px solid var(--line);
+    border-radius:16px;
+    padding:1.6rem 1.5rem;
+    background:#fff;
+    transition:transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+    position:relative;
+    overflow:hidden;
+  }
+  .vcard::after{
+    content:"";
+    position:absolute;left:0;top:0;height:100%;width:4px;
+    background:var(--orange);
+    transform:scaleY(0);transform-origin:top;
+    transition:transform .25s ease;
+  }
+  .vcard:hover{transform:translateY(-4px);box-shadow:0 16px 36px rgba(200,78,14,.16);border-color:transparent;}
+  .vcard:hover::after{transform:scaleY(1);}
+  .vcard .num{
+    font-family:'Fraunces',serif;
+    font-size:.85rem;color:var(--orange-deep);
+    letter-spacing:.1em;margin-bottom:.7rem;
+  }
+  .vcard .label{
+    font-family:'Fraunces',serif;
+    font-weight:600;font-size:1.35rem;margin-bottom:.4rem;
+  }
+  .vcard .desc{font-size:.92rem;color:var(--muted);margin-bottom:1rem;}
+  .vcard .go{
+    font-size:.85rem;font-weight:600;color:var(--orange-deep);
+    display:inline-flex;align-items:center;gap:.4rem;
+  }
+  .vcard .go::after{content:"\2192";transition:transform .25s ease;}
+  .vcard:hover .go::after{transform:translateX(4px);}
+
+  footer{
+    border-top:1px solid var(--line);
+    padding:2rem 0;
+    margin-top:3rem;
+    font-size:.85rem;
+    color:var(--muted);
+  }
+
+  /* video overlay */
+  .overlay{
+    position:fixed;inset:0;
+    background:rgba(26,13,4,.85);
+    backdrop-filter:blur(6px);
+    display:none;
+    align-items:center;justify-content:center;
+    z-index:100;padding:1.5rem;
+  }
+  .overlay.open{display:flex;animation:fade .25s ease;}
+  @keyframes fade{from{opacity:0;}to{opacity:1;}}
+  .overlay .box{
+    background:#000;
+    border-radius:16px;
+    overflow:hidden;
+    max-width:900px;width:100%;
+    box-shadow:0 30px 80px rgba(0,0,0,.6);
+    position:relative;
+  }
+  .overlay .frame{position:relative;width:100%;padding-top:56.25%;}
+  .overlay iframe{position:absolute;inset:0;width:100%;height:100%;border:0;}
+  .overlay .close{
+    position:absolute;top:-14px;right:-14px;
+    width:40px;height:40px;border-radius:50%;
+    background:var(--orange);color:#fff;border:none;
+    font-size:1.3rem;line-height:1;cursor:pointer;
+    box-shadow:0 6px 18px rgba(0,0,0,.4);
+    display:flex;align-items:center;justify-content:center;
+    transition:transform .2s ease;z-index:2;
+  }
+  .overlay .close:hover{transform:scale(1.1);}
+
+  @media(max-width:820px){
+    .cards{grid-template-columns:1fr;}
+    .hero{padding:3rem 0 2rem;}
+    .overlay .close{top:8px;right:8px;}
+  }
+</style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <div class="brand">Jugendsprache<span>.</span> Warum ?</div>
+      <div class="meta">Pädagogische Grundlagen des Schriftspracherwerbs &middot; BSCE-241</div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="hero">
+      <span class="eyebrow">Sprache &amp; Generation</span>
+      <h1>Warum <em>Jugendsprache</em> verbindet und wie man sie nutzt</h1>
+      <p class="lead">
+        Jugendsprache ist mehr als ein paar Modew&ouml;rter. Sie ist Ausdruck von Identit&auml;t,
+        Zugeh&ouml;rigkeit und st&auml;ndigem Wandel.      
+      </p>
+    </section>
+
+    <section class="content">
+      <p>
+        Sprache ist etwas Bewegliches, sie hat keine feste Form. Auch wenn wir oft glauben, sie sei
+        starr und unver&auml;nderlich, merkt man schnell, dass Kinder, Erwachsene und Gro&szlig;eltern doch
+        sehr verschieden reden. Dabei geht es nicht nur um die Begriffe selbst. Sicher, ein
+        Sechzehnj&auml;hriger benutzt das Wort <strong>&bdquo;potzblitz&ldquo;</strong> deutlich seltener als seine
+        Oma, und dieselbe Oma wird umgekehrt kaum durch die Gegend laufen und sagen, &bdquo;wie geil ihre
+        Airis sind&ldquo;. Genau das zeigt: Sprache ist wandelbar. Und das ist etwas Gutes.
+      </p>
+      <p>
+        Deshalb sagen wir heute auch nicht mehr <strong>&bdquo;papperlapapp&ldquo;</strong>, obwohl dieses Wort
+        allein durch seine Doppelkonsonanten und Plosivlaute fast schon an Lautmalerei grenzt.
+        Stattdessen sagen wir &bdquo;Laber nicht!&ldquo; oder &bdquo;Bullshit&ldquo;. Klanglich vielleicht weniger sch&ouml;n,
+        aber daf&uuml;r n&auml;her an der Lebenswelt der Jugend, und damit verbindender.
+      </p>
+      <p>
+        Und genau darum geht es in diesem Video: Wenn man m&ouml;chte, dass Kinder sich f&uuml;r etwas
+        interessieren, darf man nicht in einer Sprache mit ihnen sprechen, die sie selbst nicht
+        reden. Das w&auml;re, als w&uuml;rde man einem G&auml;rtner einen Automotor erkl&auml;ren. Nat&uuml;rlich
+        funktioniert das irgendwie, vorausgesetzt, man hat ein halbwegs aufgeschlossenes Gegen&uuml;ber.
+        Aber wenn man mit Referenzen arbeitet und die Sprache aufgreift, die der G&auml;rtner selbst
+        benutzt, f&auml;llt es ihm leichter und macht ihm obendrein mehr Spa&szlig;.
+      </p>
+      <p>
+        Dazu geh&ouml;rt auch, dass Sprache immer kontextabh&auml;ngig ist. Wie es Argent Dificile auf den
+        Punkt bringt: Man redet eben nicht mit jedem auf dieselbe Weise. Mit der eigenen Oma
+        spricht man anders als mit Freunden. Genau in seinen Worten:
+        <em>&bdquo;Ech soen net menger Boma uma Vision Boma, da versteet meng Bom guer n&auml;ischt.&ldquo;</em>
+        Welche Sprache angemessen ist, h&auml;ngt also immer davon ab, mit wem man spricht und in welcher
+        Situation.
+      </p>
+      <p>
+        Und das ist es, was dieses Video umsetzt: In Zusammenarbeit mit <strong>RTL</strong> und dem
+        <strong>Nationalmus&eacute;e</strong> wurde ein Beitrag produziert, der bewusst die Sprache der
+        heutigen Jugend benutzt, um genau diese Jugend auch zu erreichen.
+      </p>
+    </section>
+
+    <div class="divider"></div>
+
+    <section class="videos">
+      <h2>Die drei Videos</h2>
+      <p class="hint">Klicken Sie auf eine der Karten, um das jeweilige Video zu &ouml;ffnen.</p>
+
+      <div class="cards">
+        <a class="vcard" href="#" data-yt="rvAzKGYl2VI" data-title="Originalvideo">
+          <div class="num">01 &middot; Material</div>
+          <div class="label">Originalvideo</div>
+          <div class="desc">Original Video ohne zus&auml;tzliche Bearbeitung.</div>
+          <span class="go">Video ansehen</span>
+        </a>
+
+        <a class="vcard" href="#" data-yt="dZ3anwGL7Ck" data-title="Illustrierende Version">
+          <div class="num">02 &middot; Illustration</div>
+          <div class="label">Illustrierende Version</div>
+          <div class="desc">Bearbeitetes Video, das den Unterschied zwischen Erwachsenen- und Jugendsprache veranschaulicht.</div>
+          <span class="go">Video ansehen</span>
+        </a>
+
+        <a class="vcard" href="#" data-yt="cpUWdaCjl_I" data-title="Kommentar">
+          <div class="num">03 &middot; Analyse</div>
+          <div class="label">Kommentar</div>
+          <div class="desc">Kommentar von einem lux. Influencer, der selbst Lehrer ist.</div>
+          <span class="go">Video ansehen</span>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      Autor: Goedert Tim &middot; Professorin: Jeanne Letsch &middot; P&auml;dagogische Grundlagen des Schriftspracherwerbs &middot; BSCE-241
+    </div>
+  </footer>
+
+  <div class="overlay" id="overlay">
+    <div class="box">
+      <button class="close" id="closeBtn" aria-label="Schlie&szlig;en">&times;</button>
+      <div class="frame"><div id="frameHolder"></div></div>
+    </div>
+  </div>
+
+  <script>
+    const overlay = document.getElementById('overlay');
+    const holder  = document.getElementById('frameHolder');
+    const closeBtn = document.getElementById('closeBtn');
+
+    document.querySelectorAll('.vcard').forEach(card => {
+      card.addEventListener('click', e => {
+        e.preventDefault();
+        const id = card.dataset.yt;
+        holder.innerHTML =
+          '<iframe src="https://www.youtube-nocookie.com/embed/' + id +
+          '?autoplay=1&rel=0" allow="autoplay; encrypted-media; fullscreen" allowfullscreen></iframe>';
+        overlay.classList.add('open');
+      });
+    });
+
+    function closeOverlay(){
+      overlay.classList.remove('open');
+      holder.innerHTML = '';
+    }
+
+    closeBtn.addEventListener('click', closeOverlay);
+    overlay.addEventListener('click', e => { if(e.target === overlay) closeOverlay(); });
+    document.addEventListener('keydown', e => { if(e.key === 'Escape') closeOverlay(); });
+  </script>
+</body>
+</html>
